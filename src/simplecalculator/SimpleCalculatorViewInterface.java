@@ -24,4 +24,17 @@ public interface SimpleCalculatorViewInterface {
   public String getResultMessage(int one, int two, int result);
 
 
+  /**
+   * Display message for entering the first number.
+   *
+   * @return message for entering the first number
+   */
+  public String getFirstPrompt();
+
+  /**
+   * Display message for entering the second number.
+   *
+   * @return message for entering the second number
+   */
+  public String getSecondPrompt();
 }

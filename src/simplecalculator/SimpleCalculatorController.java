@@ -36,10 +36,22 @@ public class SimpleCalculatorController implements SimpleCalculatorControllerInt
       out.append(welcomeMessage);
 
       while (true) {
-        out.append("First Number: ");
-        int firstNumber = scan.nextInt();
-        out.append("Second Number: ");
-        int secondNumber = scan.nextInt();
+        out.append(view.getFirstPrompt());
+        String inputString = scan.next();
+        if ("q".equals(inputString)) {
+          return;
+        }
+
+        int firstNumber = Integer.parseInt(inputString);
+
+        out.append(view.getSecondPrompt());
+
+        inputString = scan.next();
+        if ("q".equals(inputString)) {
+          return;
+        }
+
+        int secondNumber = Integer.parseInt(inputString);
 
         int result = model.add(firstNumber, secondNumber);
 

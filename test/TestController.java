@@ -20,7 +20,7 @@ public class TestController {
     @Override
     public int add(int a, int b) {
       try {
-        String message = "add(" + a + ", " + b + ")\n";
+        String message = "in model.add(" + a + ", " + b + ")\n";
         out.append(message);
       } catch (Exception e) {
         throw new RuntimeException(e);
@@ -39,7 +39,7 @@ public class TestController {
     @Override
     public String getWelcomeMessage() {
       try {
-        out.append("getWelcomeMessage()\n");
+        out.append("in getWelcomeMessage\n");
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
@@ -49,11 +49,31 @@ public class TestController {
     @Override
     public String getResultMessage(int one, int two, int result) {
       try {
-        out.append("view\n");
+        out.append("in getResultMessage\n");
       } catch (Exception e) {
         throw new RuntimeException(e);
       }
-      return "getResultCalled";
+      return "___RESULT___(" + result + ")";
+    }
+
+    @Override
+    public String getFirstPrompt() {
+      try {
+        out.append("in getFirstPrompt\n");
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+      return "1]";
+    }
+
+    @Override
+    public String getSecondPrompt() {
+      try {
+        out.append("in getSecondPrompt\n");
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+      return "2]";
     }
   }
 
@@ -62,22 +82,25 @@ public class TestController {
     StringBuilder out = new StringBuilder();
     ModelMock model = new ModelMock(out, 42);
     ViewMock view = new ViewMock(out);
-    StringReader input = new StringReader("1\n2\n");
+    StringReader input = new StringReader("1\n2\nq\n");
 
     SimpleCalculatorController controller = new SimpleCalculatorController(input, out, model, view);
 
     try {
       controller.runCalculator();
-      assertEquals("getWelcomeMessage()\n"
-          + "Welcome to the simple calculator!\n"
-          + "First Number: Second Number: add(1, 2)\n"
-          + "view\n"
-          + "getResultCalled\n"
-          + "First Number: ", out.toString());
+      assertEquals("in getWelcomeMessage\n" // this is to see if we are in the right function
+          + "Welcome to the simple calculator!\n" //this is the welcome message
+          + "in getFirstPrompt\n" // this is to see if we are in the right function
+          + "1]in getSecondPrompt\n" // The prompt printed and a message from within second prompt
+          + "2]in model.add(1, 2)\n" // the two prompts plus a message from within the model
+          + "in getResultMessage\n" // this is to see if we are in the right function
+          + "___RESULT___(42)\n"  // add always returns 42 so this is the result message
+          + "in getFirstPrompt\n" // this is to see if we are in the right function
+          + "1]", out.toString());
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
-
-
   }
+
+
 }

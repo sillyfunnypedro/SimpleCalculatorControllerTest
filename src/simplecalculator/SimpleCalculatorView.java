@@ -30,5 +30,23 @@ public class SimpleCalculatorView implements SimpleCalculatorViewInterface {
     return "The result of " + one + " + " + two + " is " + result;
   }
 
+  /**
+   * gets the message for the first number.
+   *
+   * @return the message for the first number
+   */
+  public String getFirstPrompt() {
+    return "First number (q to quit): ";
+  }
+
+  /**
+   * gets the message for the second number.
+   *
+   * @return the message for the second number
+   */
+  public String getSecondPrompt() {
+    return "Second number (q to quit): ";
+  }
+
 
 }
